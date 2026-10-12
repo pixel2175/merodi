@@ -20,15 +20,11 @@ github.com/google/pprof v0.0.0-20250403155104-27863c87afa6 h1:BHT72Gu3keYf3ZEu2J
 github.com/google/pprof v0.0.0-20250403155104-27863c87afa6/go.mod h1:boTsfXsheKC2y+lKOCMpSfarhxDeIzfZG1jqGcPl3cA=
 github.com/json-iterator/go v1.1.12 h1:PV8peI4a0ysnczrg+LtxykD8LfKY9ML6u2jnxaEnrnM=
 github.com/json-iterator/go v1.1.12/go.mod h1:e30LSqwooZae/UwlEbR2852Gd8hjQvJoHmT4TnhNGBo=
-github.com/mdigger/goldmark-attributes v0.0.0-20250724115859-bd3108091530 h1:PtnMRIkeWQi6FgIdfI1mtm+cMX1g1KVs+0NuJYeT8Tw=
-github.com/mdigger/goldmark-attributes v0.0.0-20250724115859-bd3108091530/go.mod h1:Df2jMu8JhRCOgI3hp7CU8Y8Rjw+uaOySYtZk+P6+Vj0=
 github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421/go.mod h1:6dJC0mAP4ikYIbvyc7fijjWJddQyLn8Ig3JB5CqoB9Q=
 github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd h1:TRLaZ9cD/w8PVh93nsPXa1VrQ6jlwL5oN8l14QlcNfg=
 github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd/go.mod h1:6dJC0mAP4ikYIbvyc7fijjWJddQyLn8Ig3JB5CqoB9Q=
 github.com/modern-go/reflect2 v1.0.2 h1:xBagoLtFs94CBntxluKeaWgTMpvLxC4ur3nMaC9Gz0M=
 github.com/modern-go/reflect2 v1.0.2/go.mod h1:yWuevngMOJpCy52FWWMvUC8ws7m/LJsjYzDa0/r8luk=
-github.com/nemunaire/goldmark-inline-attributes v0.0.0-20251123083539-f128b1ee39c6 h1:0nZzCUnaGntkIvj+LLp6M1YS/6K2HDXYYs2uM70c3wg=
-github.com/nemunaire/goldmark-inline-attributes v0.0.0-20251123083539-f128b1ee39c6/go.mod h1:+hOsEgoiJWqQOErC3EHg5PihpoiZVqVYibAvPDojQQw=
 github.com/nikolalohinski/gonja/v2 v2.5.2-0.20260925050630-cba6d3edb81d h1:ri11gJT5tmR+4loo+QSinWhJrkQPgqFQeZXjMJLvTBo=
 github.com/nikolalohinski/gonja/v2 v2.5.2-0.20260925050630-cba6d3edb81d/go.mod h1:UIzXPVuOsr5h7dZ5DUbqk3/Z7oFA/NLGQGMjqT4L2aU=
 github.com/onsi/ginkgo/v2 v2.23.4 h1:ktYTpKJAVZnDT4VjxSbiBenUjmlL/5QkBEocaWXiQus=

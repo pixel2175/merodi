@@ -7,8 +7,7 @@ merodi.enable.Strikethrough()    -- supports ~~strikethrough~~
 merodi.enable.Table()            -- supports Markdown tables
 merodi.enable.TaskList()         -- supports task lists
 merodi.enable.Typographer()      -- replaces quotes and dashes with typographic ones
-merodi.enable.HeaderAttr()       -- allows attributes on Markdown elements (Headers only)
-merodi.enable.BlockAttr()        -- allows attributes on Markdown elements (Blocks only)
+merodi.enable.HTMLAttr()         -- allows attributes on Markdown elements
 merodi.enable.AutoHeadingID()    -- adds IDs to headings automatically
 merodi.enable.EscapedSpace()     -- allows spaces to be escaped
 merodi.enable.SetextHeading()    -- supports `Heading\n=======` headings

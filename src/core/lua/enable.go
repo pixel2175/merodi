@@ -5,9 +5,8 @@ import (
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/util"
+	"merodi/src/core/build/compile/markdown/attrparser"
 	glua "github.com/yuin/gopher-lua"
-	ga "github.com/mdigger/goldmark-attributes"
-	gia "github.com/nemunaire/goldmark-inline-attributes"
 )
 
 var extensionsMap = map[string]goldmark.Extender{
@@ -20,12 +19,10 @@ var extensionsMap = map[string]goldmark.Extender{
 	"Footnote":       extension.Footnote,
 	"Typographer":    extension.Typographer,
 	"CJK":            extension.CJK,
-	"BlockAttr":      ga.Extension,
-	"InlineAttr":     gia.Extension,
+	"HTMLAttr":       attrparser.Extension ,
 }
 
 var parsersMap = map[string]parser.Option{
-	"HeaderAttr":    parser.WithAttribute(),
 	"AutoHeadingID": parser.WithAutoHeadingID(),
 	"EscapedSpace":  parser.WithEscapedSpace(),
 }
