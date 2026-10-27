@@ -4,9 +4,11 @@ import (
 	"errors"
 	"merodi/src/core/state"
 	"merodi/src/parser"
-	. "merodi/src/utils/errs"
+	"merodi/src/utils"
 	"os"
 	"time"
+
+	. "github.com/pixel2175/errs"
 
 	"github.com/fsnotify/fsnotify"
 )
@@ -16,25 +18,25 @@ type Watcher struct {
 }
 
 func (self *Watcher) Run(state *state.State, opt *parser.Option) (err error) {
-	defer Handle(&err)
+	defer Catch(&err)
 	self.State = state
 
-	watcher := CheckV(fsnotify.NewWatcher())
+	watcher := TryV(fsnotify.NewWatcher())
 	defer watcher.Close()
 
 	if len(state.Watch.Add) == 0 {
-		CheckE(watcher.Add(state.Config.Tree.Markdown))
+		TryE(watcher.Add(state.Config.Tree.Markdown))
 	} else {
 		for _, file := range self.State.Watch.Add {
 			_, statErr := os.Stat(file)
 			if os.IsNotExist(statErr) {
-				CheckE(statErr)
+				TryE(statErr)
 			}
-			CheckE(watcher.Add(file))
+			TryE(watcher.Add(file))
 		}
 	}
 
-	CheckE(self.State.RunHook("on_start_watching"))
+	TryE(self.State.RunHook("on_start_watching"))
 
 	lastEvents := make(map[string]time.Time)
 	const debounce = 100 * time.Millisecond
@@ -52,14 +54,14 @@ func (self *Watcher) Run(state *state.State, opt *parser.Option) (err error) {
 			}
 
 			lastEvents[event.Name] = now
-			CheckE(state.RunHook("on_file_changed", event.Op.String(), event.Name))
+			TryE(state.RunHook("on_file_changed", event.Op.String(), event.Name))
 
 		case werr, ok := <-watcher.Errors:
 			if !ok {
 				return nil
 			}
-			if !errors.Is(werr, ErrAborted) {
-				CheckE(werr)
+			if !errors.Is(werr, utils.ErrAborted) {
+				TryE(werr)
 			}
 		}
 	}

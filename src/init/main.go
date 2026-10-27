@@ -4,7 +4,7 @@ import (
 	"errors"
 	"merodi/src/config"
 	"merodi/src/project"
-	. "merodi/src/utils/errs"
+	. "github.com/pixel2175/errs"
 	"merodi/src/utils/log"
 )
 
@@ -16,10 +16,10 @@ type Init struct {
 var ErrProjectExists = errors.New("project already initialized: `config.toml` already exists")
 
 func (init *Init) GetProjectDir() (err error) {
-	defer Handle(&err)
-	init.ProjectDir = CheckV(project.GetProjectDir(init.ProjectDir))
+	defer Catch(&err)
+	init.ProjectDir = TryV(project.GetProjectDir(init.ProjectDir))
 	if project.IsProjectExists(init.ProjectDir) {
-		CheckE(ErrProjectExists)
+		TryE(ErrProjectExists)
 	}
 	return
 }
@@ -33,10 +33,10 @@ func (init *Init) InitConfig() error {
 }
 
 func (init Init) Run() (err error) {
-	defer Handle(&err)
-	CheckE(init.GetProjectDir())
-	CheckE(init.InitConfig())
-	CheckE(init.Bootstrap())
+	defer Catch(&err)
+	TryE(init.GetProjectDir())
+	TryE(init.InitConfig())
+	TryE(init.Bootstrap())
 	log.Info("Project initialized.")
 	return nil
 }

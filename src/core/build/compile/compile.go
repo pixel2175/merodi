@@ -4,7 +4,7 @@ import (
 	. "merodi/src/core/build/compile/jinja"
 	. "merodi/src/core/build/compile/markdown"
 	"merodi/src/core/state"
-	. "merodi/src/utils/errs"
+	. "github.com/pixel2175/errs"
 )
 
 type Compile struct {
@@ -15,10 +15,10 @@ type Compile struct {
 }
 
 func (self *Compile) Init() (err error) {
-	defer Handle(&err)
+	defer Catch(&err)
 
 	self.Jinja = JinjaEngine{Title: self.State.Config.Project.Description}
-	CheckE(self.Jinja.Init(self.State.Config.Tree.Templates))
+	TryE(self.Jinja.Init(self.State.Config.Tree.Templates))
 
 	self.MD = Markdown{}
 	self.MD.Init(self.State)
@@ -33,7 +33,7 @@ func (self *Compile) Convert() (doccontent string) {
 }
 
 func (self *Compile) Run(mdfile string) (err error) {
-	defer Handle(&err)
+	defer Catch(&err)
 	defer self.reset()
 
 	self.ResolvePaths(mdfile)
@@ -41,6 +41,6 @@ func (self *Compile) Run(mdfile string) (err error) {
 
 	doc := self.Convert()
 	self.hook("before_write")
-	CheckE(self.WriteDoc(doc))
+	TryE(self.WriteDoc(doc))
 	return
 }

@@ -8,7 +8,7 @@ import (
 	. "merodi/src/core/state"
 	"merodi/src/core/watch"
 	"merodi/src/parser"
-	. "merodi/src/utils/errs"
+	. "github.com/pixel2175/errs"
 )
 
 type Action interface {
@@ -23,18 +23,18 @@ var Actions = map[parser.Action]Action{
 }
 
 func Run(opt *parser.Option) (err error) {
-	defer Handle(&err)
+	defer Catch(&err)
 	state := InitGlobals()
 	state.Action = opt.Action
 	state.Build.Mode = opt.Mode
 
-	CheckE(state.GoToProjectDir(opt.ProjectDir))
-	CheckE(state.LoadConfig())
+	TryE(state.GoToProjectDir(opt.ProjectDir))
+	TryE(state.LoadConfig())
 	if opt.Action != parser.Clean {
-		CheckE(lua.Init(&state))
+		TryE(lua.Init(&state))
 		defer state.Lua.Context.Close()
 	}
-	CheckE(Actions[opt.Action].Run(&state, opt))
+	TryE(Actions[opt.Action].Run(&state, opt))
 
 	return nil
 }

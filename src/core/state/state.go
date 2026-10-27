@@ -5,7 +5,9 @@ import (
 	. "merodi/src/config"
 	"merodi/src/core/build/compile/jinja"
 	"merodi/src/parser"
-	. "merodi/src/utils/errs"
+	"merodi/src/utils"
+
+	. "github.com/pixel2175/errs"
 
 	"github.com/yuin/goldmark"
 	gparser "github.com/yuin/goldmark/parser"
@@ -60,7 +62,7 @@ func InitGlobals() State {
 }
 
 func (s *State) RunHook(stage string, args ...string) (err error) {
-	defer Handle(&err)
+	defer Catch(&err)
 	fn, ok := s.Hooks[stage]
 	if !ok {
 		return
@@ -80,8 +82,8 @@ func (s *State) RunHook(stage string, args ...string) (err error) {
 	}, luaArgs...)
 
 	if s.Lua.Aborted {
-		CheckE(ErrAborted)
+		TryE(utils.ErrAborted)
 	}
-	CheckE(cerr)
+	TryE(cerr)
 	return
 }

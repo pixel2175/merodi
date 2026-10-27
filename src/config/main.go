@@ -1,7 +1,7 @@
 package config
 
 import (
-	. "merodi/src/utils/errs"
+	. "github.com/pixel2175/errs"
 	"os"
 	"path/filepath"
 
@@ -74,25 +74,25 @@ func (self *Config) ConfigPath() string {
 }
 
 func (self *Config) Init() (err error) {
-	defer Handle(&err)
-	CheckE(os.MkdirAll(self.ProjectDir, 0755))
-	f := CheckV(os.Create(self.ConfigPath()))
+	defer Catch(&err)
+	TryE(os.MkdirAll(self.ProjectDir, 0755))
+	f := TryV(os.Create(self.ConfigPath()))
 	defer f.Close()
 	self.DefaultData()
-	CheckE(toml.NewEncoder(f).Encode(self.Data))
+	TryE(toml.NewEncoder(f).Encode(self.Data))
 	return
 }
 
 func (self *Config) Read() (err error) {
-	defer Handle(&err)
-	CheckV(toml.DecodeFile(self.ConfigPath(), &self.Data))
+	defer Catch(&err)
+	TryV(toml.DecodeFile(self.ConfigPath(), &self.Data))
 	return
 }
 
 func (self *Config) Write() (err error) {
-	defer Handle(&err)
-	f := CheckV(os.Create(self.ConfigPath()))
+	defer Catch(&err)
+	f := TryV(os.Create(self.ConfigPath()))
 	defer f.Close()
-	CheckE(toml.NewEncoder(f).Encode(self.Data))
+	TryE(toml.NewEncoder(f).Encode(self.Data))
 	return
 }

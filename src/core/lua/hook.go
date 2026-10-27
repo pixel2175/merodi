@@ -1,7 +1,7 @@
 package lua
 
 import (
-	. "merodi/src/utils/errs"
+	"merodi/src/utils"
 
 	lua "github.com/yuin/gopher-lua"
 )
@@ -15,7 +15,7 @@ func (self *Lua) registerHook(L *lua.LState) int {
 
 func (self *Lua) luaAbort(L *lua.LState) int {
 	self.State.Lua.Aborted = true
-	panic(ErrAborted)
+	panic(utils.ErrAborted)
 }
 
 func (self *Lua) registerHooks() {

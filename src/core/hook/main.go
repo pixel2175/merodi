@@ -3,7 +3,7 @@ package hook
 import (
 	"merodi/src/core/state"
 	"merodi/src/parser"
-	. "merodi/src/utils/errs"
+	. "github.com/pixel2175/errs"
 )
 
 type Hook struct {
@@ -11,9 +11,9 @@ type Hook struct {
 }
 
 func (self *Hook) Run(state *state.State, opt *parser.Option) (err error) {
-	defer Handle(&err)
+	defer Catch(&err)
 	self.State = state
 
-	CheckE(self.State.RunHook(opt.Hook, opt.Args...))
+	TryE(self.State.RunHook(opt.Hook, opt.Args...))
 	return
 }

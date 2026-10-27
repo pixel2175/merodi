@@ -1,7 +1,7 @@
 package project
 
 import (
-	. "merodi/src/utils/errs"
+	. "github.com/pixel2175/errs"
 	"merodi/src/utils/path"
 	"os"
 	"path/filepath"
@@ -16,7 +16,7 @@ func GetProjectDir(dir string) (string, error) {
 }
 
 func SetProjectDir(dir string) (string, error) {
-	projectPath := CheckV(GetProjectDir(dir))
+	projectPath := TryV(GetProjectDir(dir))
 
 	for projectPath != "/" {
 		if IsProjectExists(projectPath) {

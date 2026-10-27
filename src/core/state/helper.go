@@ -3,23 +3,23 @@ package state
 import (
 	"merodi/src/config"
 	"merodi/src/project"
-	. "merodi/src/utils/errs"
+	. "github.com/pixel2175/errs"
 	"os"
 )
 
 func (self *State) GoToProjectDir(dir string) (err error) {
-	defer Handle(&err)
-	dir = CheckV(project.SetProjectDir(dir))
+	defer Catch(&err)
+	dir = TryV(project.SetProjectDir(dir))
 	self.ProjectDir = dir
-	CheckE(os.Chdir(dir))
+	TryE(os.Chdir(dir))
 	return
 }
 
 func (self *State) LoadConfig() (err error) {
-	defer Handle(&err)
+	defer Catch(&err)
 	var cfg config.Config
 	cfg.ProjectDir = self.ProjectDir
-	CheckE(cfg.Read())
+	TryE(cfg.Read())
 	self.Config = cfg.Data
 	return
 }

@@ -1,7 +1,7 @@
 package compile
 
 import (
-	. "merodi/src/utils/errs"
+	. "github.com/pixel2175/errs"
 	"os"
 	"path/filepath"
 	"strings"
@@ -17,23 +17,23 @@ func (self *Compile) destRoot() string {
 }
 
 func (self *Compile) docDestPath(mdPath string) (dest string, err error) {
-	defer Handle(&err)
-	mdRoot := CheckV(filepath.Abs(self.State.Config.Tree.Markdown))
-	absMd := CheckV(filepath.Abs(mdPath))
-	rel := CheckV(filepath.Rel(mdRoot, absMd))
+	defer Catch(&err)
+	mdRoot := TryV(filepath.Abs(self.State.Config.Tree.Markdown))
+	absMd := TryV(filepath.Abs(mdPath))
+	rel := TryV(filepath.Rel(mdRoot, absMd))
 
 	name := strings.TrimSuffix(rel, ".md")
 	if name != rel {
 		name += ".html"
 	}
-	dest = CheckV(filepath.Abs(filepath.Join(self.destRoot(), name)))
+	dest = TryV(filepath.Abs(filepath.Join(self.destRoot(), name)))
 	return
 }
 
 func (self *Compile) WriteDoc(docContent string) (err error) {
-	defer Handle(&err)
+	defer Catch(&err)
 
-	CheckE(os.MkdirAll(filepath.Dir(self.Build.DocPath), 0o755))
-	CheckE(os.WriteFile(self.Build.DocPath, []byte(docContent), 0o644))
+	TryE(os.MkdirAll(filepath.Dir(self.Build.DocPath), 0o755))
+	TryE(os.WriteFile(self.Build.DocPath, []byte(docContent), 0o644))
 	return
 }

@@ -3,7 +3,7 @@ package jinja
 import (
 	"errors"
 	"fmt"
-	. "merodi/src/utils/errs"
+	. "github.com/pixel2175/errs"
 	"strings"
 
 	"github.com/nikolalohinski/gonja/v2"
@@ -22,19 +22,19 @@ type JinjaEngine struct {
 }
 
 func (self *JinjaEngine) Init(templates string) (err error) {
-	defer Handle(&err)
-	self.Loader = CheckV(loaders.NewFileSystemLoader(templates))
+	defer Catch(&err)
+	self.Loader = TryV(loaders.NewFileSystemLoader(templates))
 	self.Config = gonja.DefaultConfig
 	return
 }
 
 func (self *JinjaEngine) JinjaHandler(html_content *string) (err error) {
-	defer Handle(&err)
+	defer Catch(&err)
 	self.Page = &Page{Title: self.Title, Lang: "en"}
 
-	CheckE(self.registerDocument())
+	TryE(self.registerDocument())
 
-	shiftedLoader := CheckV(loaders.NewShiftedLoader(
+	shiftedLoader := TryV(loaders.NewShiftedLoader(
 		"root",
 		strings.NewReader(*html_content),
 		self.Loader,
@@ -56,12 +56,12 @@ func (self *JinjaEngine) JinjaHandler(html_content *string) (err error) {
 				syntaxErr.Message,
 			)
 		}
-		CheckE(terr)
+		TryE(terr)
 	}
 
 	ctx := exec.NewContext(self.Data)
 	ctx.Set("document", self.Page)
 
-	*html_content = CheckV(tpl.ExecuteToString(ctx))
+	*html_content = TryV(tpl.ExecuteToString(ctx))
 	return
 }

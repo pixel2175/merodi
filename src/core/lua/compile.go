@@ -3,7 +3,7 @@ package lua
 import (
 	"merodi/src/core/build/compile"
 	"merodi/src/core/state"
-	. "merodi/src/utils/errs"
+	. "github.com/pixel2175/errs"
 	"strings"
 
 	glua "github.com/yuin/gopher-lua"
@@ -12,7 +12,7 @@ import (
 func (self *Lua) registerCompile() {
 	c := &compile.Compile{State: self.State}
 	build := state.Build{}
-	CheckE(c.Init())
+	TryE(c.Init())
 	c.Build = &build
 
 	compileTable := self.Context.NewTable()
@@ -25,7 +25,7 @@ func (self *Lua) registerCompile() {
 
 	compileTable.RawSetString("mdtohtml", self.Context.NewFunction(func(L *glua.LState) int {
 		md := L.ToString(1)
-		html := CheckV(c.MD.MdToDoc(md))
+		html := TryV(c.MD.MdToDoc(md))
 		L.Push(glua.LString(strings.TrimRight(html, "\n")))
 		return 1
 	}))

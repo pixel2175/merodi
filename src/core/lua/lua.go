@@ -2,7 +2,7 @@ package lua
 
 import (
 	"merodi/src/core/state"
-	. "merodi/src/utils/errs"
+	. "github.com/pixel2175/errs"
 	"path/filepath"
 
 	glua "github.com/yuin/gopher-lua"
@@ -15,7 +15,7 @@ type Lua struct {
 }
 
 func Init(st *state.State) (err error) {
-	defer Handle(&err)
+	defer Catch(&err)
 
 	st.Lua.Context = glua.NewState()
 
@@ -29,20 +29,20 @@ func Init(st *state.State) (err error) {
 	self.registerMerodi()
 
 	path := filepath.Join(self.State.Config.Tree.Plugins, "main.lua")
-	CheckE(self.loadFile(path))
+	TryE(self.loadFile(path))
 	return
 }
 
 func (self *Lua) loadFile(path string) (err error) {
-	defer Handle(&err)
+	defer Catch(&err)
 	fn, lerr := self.State.Lua.Context.LoadFile(path)
 	if lerr != nil {
-		CheckE(describeLuaError(path, lerr))
+		TryE(describeLuaError(path, lerr))
 	}
 
 	self.State.Lua.Context.Push(fn)
 	if perr := self.State.Lua.Context.PCall(0, glua.MultRet, nil); perr != nil {
-		CheckE(describeLuaError(path, perr))
+		TryE(describeLuaError(path, perr))
 	}
 	return
 }

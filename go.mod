@@ -1,11 +1,12 @@
 module merodi
 
-go 1.26.5
+go 1.27.1
 
 require (
 	github.com/BurntSushi/toml v1.6.0
 	github.com/fsnotify/fsnotify v1.10.1
 	github.com/nikolalohinski/gonja/v2 v2.5.2-0.20260925050630-cba6d3edb81d
+	github.com/pixel2175/errs v0.0.0-20261027160727-48f3c51659e3
 	github.com/yuin/goldmark v1.8.6
 	github.com/yuin/gopher-lua v1.1.2
 )

@@ -4,7 +4,7 @@ import (
 	"merodi/src/config"
 	"merodi/src/core/state"
 	"merodi/src/parser"
-	. "merodi/src/utils/errs"
+	. "github.com/pixel2175/errs"
 	"os"
 )
 
@@ -13,13 +13,13 @@ type Clean struct {
 }
 
 func (self *Clean) Run(state *state.State, opt *parser.Option) (err error) {
-	defer Handle(&err)
+	defer Catch(&err)
 	self.State = state
 
 	if self.State.Build.Mode == config.Release {
-		CheckE(os.RemoveAll(self.State.Config.Tree.ReleaseDest))
+		TryE(os.RemoveAll(self.State.Config.Tree.ReleaseDest))
 	} else {
-		CheckE(os.RemoveAll(self.State.Config.Tree.DraftDest))
+		TryE(os.RemoveAll(self.State.Config.Tree.DraftDest))
 	}
 	return
 }

@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"merodi/src/core/build/compile/jinja"
 	"merodi/src/core/state"
-	. "merodi/src/utils/errs"
+	. "github.com/pixel2175/errs"
 	"os"
 
 	"github.com/yuin/goldmark"
@@ -26,13 +26,13 @@ func (self *Markdown) Init(state *state.State) {
 }
 
 func (self *Markdown) ReadMD(mdfile string) (content string, err error) {
-	defer Handle(&err)
-	content = string(CheckV(os.ReadFile(mdfile)))
+	defer Catch(&err)
+	content = string(TryV(os.ReadFile(mdfile)))
 	return
 }
 
 func (self *Markdown) MdToDoc(mdcontent string) (doc string, err error) {
-	defer Handle(&err)
+	defer Catch(&err)
 	var raw_doc bytes.Buffer
 	mdBytes := []byte(mdcontent)
 
@@ -46,7 +46,7 @@ func (self *Markdown) MdToDoc(mdcontent string) (doc string, err error) {
 	)
 
 	node := gm.Parser().Parse(text.NewReader(mdBytes))
-	CheckE(gm.Renderer().Render(&raw_doc, mdBytes, node))
+	TryE(gm.Renderer().Render(&raw_doc, mdBytes, node))
 	body := raw_doc.String()
 
 	if !self.Page.Set {
