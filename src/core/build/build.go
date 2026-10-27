@@ -1,11 +1,14 @@
 package build
 
 import (
+	"errors"
 	"io/fs"
 	"merodi/src/core/build/compile"
 	"merodi/src/core/state"
 	"merodi/src/parser"
 	. "merodi/src/utils/errs"
+	path "merodi/src/utils/path"
+	"strings"
 )
 
 type Build struct {
@@ -19,9 +22,9 @@ func (self *Build) InitCompile() {
 	self.compile.Build = &self.state.Build
 }
 
-func (self *Build) Visit(path string, entry fs.DirEntry, err error) (rerr error) {
+func (self *Build) Visit(filepath string, entry fs.DirEntry, err error) (rerr error) {
 	defer Handle(&rerr, func(err *error) {
-		if *err == ErrAborted {
+		if errors.Is(*err, ErrAborted) {
 			*err = self.state.RunHook("on_abort")
 		}
 	})
@@ -30,7 +33,14 @@ func (self *Build) Visit(path string, entry fs.DirEntry, err error) (rerr error)
 	if !self.isSource(entry) {
 		return
 	}
-	CheckE(self.compile.Run(path))
+
+	if strings.HasSuffix(filepath, ".md") {
+		CheckE(self.compile.Run(filepath))
+	} else {
+		self.compile.ResolvePaths(filepath)
+		CheckE(path.CopyFile(self.compile.Build.MDPath, self.compile.Build.DocPath))
+	}
+
 	return
 }
 

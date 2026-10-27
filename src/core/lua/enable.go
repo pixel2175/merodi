@@ -5,8 +5,8 @@ import (
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/util"
-	"merodi/src/core/build/compile/markdown/attrparser"
 	glua "github.com/yuin/gopher-lua"
+	"merodi/src/core/build/compile/markdown/attrparser"
 )
 
 var extensionsMap = map[string]goldmark.Extender{
@@ -19,7 +19,7 @@ var extensionsMap = map[string]goldmark.Extender{
 	"Footnote":       extension.Footnote,
 	"Typographer":    extension.Typographer,
 	"CJK":            extension.CJK,
-	"HTMLAttr":       attrparser.Extension ,
+	"HTMLAttr":       attrparser.Extension,
 }
 
 var parsersMap = map[string]parser.Option{

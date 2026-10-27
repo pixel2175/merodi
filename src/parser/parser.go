@@ -80,9 +80,7 @@ func Parse(raw []string) Option {
 	return opt
 }
 
-
 var VERSION string
-
 
 func PrintHelp() {
 	fmt.Printf(`Merodi %s - static site generator

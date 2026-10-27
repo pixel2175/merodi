@@ -98,7 +98,6 @@ func (wrapParser) Close(ast.Node, text.Reader, parser.Context) {}
 func (wrapParser) CanInterruptParagraph() bool                 { return false }
 func (wrapParser) CanAcceptIndentedLine() bool                 { return false }
 
-
 type lineParser struct{}
 
 func (lineParser) Trigger() []byte { return []byte{'{'} }
@@ -120,7 +119,6 @@ func (lineParser) Continue(ast.Node, text.Reader, parser.Context) parser.State {
 func (lineParser) Close(ast.Node, text.Reader, parser.Context) {}
 func (lineParser) CanInterruptParagraph() bool                 { return true }
 func (lineParser) CanAcceptIndentedLine() bool                 { return false }
-
 
 type opener struct {
 	end, n int
@@ -216,7 +214,8 @@ func (inline) Parse(parent ast.Node, r text.Reader, pc parser.Context) ast.Node 
 	for j < len(line) && (line[j] == ' ' || line[j] == '\t') {
 		j++
 	}
-	if attrs, n, ok := attrsAt(line[j:]); ok {	for c := parent; c.Parent() != nil; c = c.Parent() {
+	if attrs, n, ok := attrsAt(line[j:]); ok {
+		for c := parent; c.Parent() != nil; c = c.Parent() {
 			if w, ok := c.Parent().(*node); ok && w.kind == kindWrap {
 				add(c, attrs)
 				if t, ok := parent.LastChild().(*ast.Text); ok {

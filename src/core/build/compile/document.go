@@ -22,21 +22,18 @@ func (self *Compile) docDestPath(mdPath string) (dest string, err error) {
 	absMd := CheckV(filepath.Abs(mdPath))
 	rel := CheckV(filepath.Rel(mdRoot, absMd))
 
-	name := strings.TrimSuffix(rel, ".md") + "." + "html"
+	name := strings.TrimSuffix(rel, ".md")
+	if name != rel {
+		name += ".html"
+	}
 	dest = CheckV(filepath.Abs(filepath.Join(self.destRoot(), name)))
 	return
 }
 
-func (self *Compile) WriteDoc(docContent string, docPath string) (err error) {
+func (self *Compile) WriteDoc(docContent string) (err error) {
 	defer Handle(&err)
-	CheckE(os.MkdirAll(filepath.Dir(docPath), 0o755))
-	CheckE(os.WriteFile(docPath, []byte(docContent), 0o644))
-	return
-}
 
-func (self *Compile) ResolveDocPaths(mdFile string) (mdPath, docPath string, err error) {
-	defer Handle(&err)
-	mdPath = filepath.Join(self.State.ProjectDir, mdFile)
-	docPath = CheckV(self.docDestPath(mdPath))
+	CheckE(os.MkdirAll(filepath.Dir(self.Build.DocPath), 0o755))
+	CheckE(os.WriteFile(self.Build.DocPath, []byte(docContent), 0o644))
 	return
 }

@@ -36,15 +36,11 @@ func (self *Compile) Run(mdfile string) (err error) {
 	defer Handle(&err)
 	defer self.reset()
 
-	self.resolvePaths(mdfile)
+	self.ResolvePaths(mdfile)
 	self.readMarkdown()
 
 	doc := self.Convert()
-
-	_, docPath, rerr := self.ResolveDocPaths(mdfile)
-	CheckE(rerr)
-
 	self.hook("before_write")
-	CheckE(self.WriteDoc(doc, docPath))
+	CheckE(self.WriteDoc(doc))
 	return
 }

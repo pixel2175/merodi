@@ -2,15 +2,16 @@ package compile
 
 import (
 	. "merodi/src/utils/errs"
+	"path/filepath"
 )
 
 func (self *Compile) hook(name string) {
 	CheckE(self.State.RunHook(name))
 }
 
-func (self *Compile) resolvePaths(mdfile string) {
-	mdPath, docPath, err := self.ResolveDocPaths(mdfile)
-	CheckE(err)
+func (self *Compile) ResolvePaths(mdFile string) {
+	mdPath := filepath.Join(self.State.ProjectDir, mdFile)
+	docPath := CheckV(self.docDestPath(mdPath))
 	self.Build.MDPath, self.Build.DocPath = mdPath, docPath
 }
 
