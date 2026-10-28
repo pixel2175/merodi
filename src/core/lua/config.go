@@ -8,6 +8,7 @@ func (self *Lua) registerConfigTree() *lua.LTable {
 	tree := self.State.Lua.Context.NewTable()
 	tree.RawSetString("markdown", lua.LString(self.State.Config.Tree.Markdown))
 	tree.RawSetString("templates", lua.LString(self.State.Config.Tree.Templates))
+	tree.RawSetString("plugins", lua.LString(self.State.Config.Tree.Plugins))
 	tree.RawSetString("draft_dest", lua.LString(self.State.Config.Tree.DraftDest))
 	tree.RawSetString("release_dest", lua.LString(self.State.Config.Tree.ReleaseDest))
 	return tree
